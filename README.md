@@ -77,6 +77,17 @@
   <img src="https://streak-stats.demolab.com?user=riiddev&hide_border=true&background=0D1118&ring=A9F06D&fire=BBA9FF&currStreakLabel=A9F06D&sideLabels=EAF0F7&dates=8E9AAB&currStreakNum=EAF0F7&sideNums=EAF0F7" alt="GitHub contribution streak" width="70%" />
 </div>
 
+## // CONTRIBUTIONS IN 3D
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-green.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./profile-3d-contrib/profile-green.svg" />
+    <img src="./profile-3d-contrib/profile-green.svg" alt="Three-dimensional visualization of Riiddev's GitHub contribution history" width="100%" />
+  </picture>
+  <sub>Generated automatically from GitHub contribution activity.</sub>
+</div>
+
 ## // SOUNDTRACK & ON REPEAT
 
 <div align="center">
