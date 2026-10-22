@@ -1,0 +1,63 @@
+name: Validate profile README assets
+
+on:
+  pull_request:
+    paths:
+      - "README.md"
+      - "assets/**"
+      - "profile-3d-contrib/**"
+      - ".github/workflows/validate-profile-assets.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "README.md"
+      - "assets/**"
+      - "profile-3d-contrib/**"
+      - ".github/workflows/validate-profile-assets.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-local-assets:
+    name: Check local README assets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Verify local image and link paths
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          readme_path = Path("README.md")
+          content = readme_path.read_text(encoding="utf-8")
+          attribute_pattern = re.compile(r'\\b(?:src|href|srcset)\\s*=\\s*["\\']([^"\\']+)["\\']')
+          markdown_pattern = re.compile(r'!?\\[[^\\]]*\\]\\((\\./[^)\\s]+)')
+
+          references = []
+          for value in attribute_pattern.findall(content):
+              for candidate in value.split(","):
+                  candidate = candidate.strip().split()[0] if candidate.strip() else ""
+                  if candidate.startswith("./"):
+                      references.append(candidate)
+          references.extend(markdown_pattern.findall(content))
+
+          missing = sorted({
+              reference
+              for reference in references
+              if not Path(reference[2:].split("#", 1)[0].split("?", 1)[0]).exists()
+          })
+
+          if missing:
+              print("Missing local README assets:")
+              for reference in missing:
+                  print(f"  - {reference}")
+              sys.exit(1)
+
+          print(f"Checked {len(set(references))} local README path(s); all exist.")
+          PY
