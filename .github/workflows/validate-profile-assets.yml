@@ -36,8 +36,8 @@ jobs:
 
           readme_path = Path("README.md")
           content = readme_path.read_text(encoding="utf-8")
-          attribute_pattern = re.compile(r'\\b(?:src|href|srcset)\\s*=\\s*["\\']([^"\\']+)["\\']')
-          markdown_pattern = re.compile(r'!?\\[[^\\]]*\\]\\((\\./[^)\\s]+)')
+          attribute_pattern = re.compile(r"""(?:src|href|srcset)\s*=\s*["']([^"']+)["']""")
+          markdown_pattern = re.compile(r"""!?\[[^\]]*\]\((\./[^)\s]+)""")
 
           references = []
           for value in attribute_pattern.findall(content):
